@@ -1,22 +1,39 @@
 class Blog
 
-  def post_list
-    post_list = Array.new
-  end
+    def set_post_list
+      @post_list = Array.new
+    end
+
+    def add_post_to_list(post)
+      @post_list.push(post)
+      puts "#{@post_list}"
+    end
+
+    @@total_posts = 0
+
+    def initialize
+      @@total_posts +=1
+      set_post_list
+    end
+
+    def count_posts
+      puts "there are currently #{@@total_posts} in the blog so far. plenty more where that came from!"
+    end
 
 end
 
 class Blogpost < Blog
 
-  @@total_posts = 0
+  # @@total_posts = 0
+  #
+  # def initialize
+  #   @@total_posts +=1
+  #   set_post_list
+  # end
 
-  def initialize
-    @@total_posts +=1
-  end
-
-  def count_posts
-    puts "there are currently #{@@total_posts} in the blog so far. plenty more where that came from!"
-  end
+  # def count_posts
+  #   puts "there are currently #{@@total_posts} in the blog so far. plenty more where that came from!"
+  # end
 
   def set_author=(author)
     @author = author
@@ -54,6 +71,7 @@ end
 
 def make_new_post
 
+  blog = Blog.new
   post = Blogpost.new
 
   require 'date'
@@ -77,6 +95,10 @@ def make_new_post
   author: #{post_author}
   title: #{post_title}
   content: #{post_content}"
+
+  blog.add_post_to_list(post)
+
+  @post_list.inspect
 
 end
 
