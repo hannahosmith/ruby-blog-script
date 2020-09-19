@@ -20,6 +20,7 @@ class Blog
         puts "title: #{post.title}"
         puts "content: #{post.content}"
         puts "\n"
+        end
     end
 
     def self.count_posts
@@ -107,6 +108,4 @@ if response == 'y'
   puts "ok, maybe another time"
 else
   puts "ok, maybe another time"
-end
-
 end
