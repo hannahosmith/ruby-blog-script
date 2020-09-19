@@ -1,120 +1,112 @@
 class Blog
 
-    def set_post_list
-      @post_list = Array.new
-    end
-
-    def add_post_to_list(post)
-      @post_list.push(post)
-      puts "#{@post_list}"
-    end
-
+    @@post_list = []
     @@total_posts = 0
 
-    def initialize
+    # def get_post_list
+    #   return @@post_list
+    # end
+
+    def self.add_post_to_list(post)
+      @@post_list << post
       @@total_posts +=1
-      set_post_list
     end
 
-    def count_posts
-      puts "there are currently #{@@total_posts} in the blog so far. plenty more where that came from!"
+    def self.show_posts
+      @@post_list.each do |post|
+        puts "\n"
+        puts "date: #{post.created_at}"
+        puts "author: #{post.author}"
+        puts "title: #{post.title}"
+        puts "content: #{post.content}"
+        puts "\n"
+    end
+
+    def self.count_posts
+        puts "there are currently #{@@total_posts} posts in the blog so far. plenty more where that came from!"
     end
 
 end
 
 class Blogpost < Blog
 
-  # @@total_posts = 0
-  #
-  # def initialize
-  #   @@total_posts +=1
-  #   set_post_list
-  # end
+  def self.make_new_post
 
-  # def count_posts
-  #   puts "there are currently #{@@total_posts} in the blog so far. plenty more where that came from!"
-  # end
+    post = new
 
-  def set_author=(author)
-    @author = author
+    puts "who wrote this blog post?"
+    post.author = gets.chomp
+
+    puts "what is this post titled?"
+    post.title= gets.chomp
+
+    puts "insert the post content here"
+    post.content= gets.chomp
+
+    post.created_at = Time.now
+
+    post.save_post
+
   end
 
   def author
-    return @author
+    @author
   end
 
-  def set_title=(title)
-    @title = title
-  end
-
-  def title
-    return @title
-  end
-
-  def set_date
-    @date = Date.today
-  end
-
-  def date
-    return @date
-  end
-
-  def set_content=(content)
-    @content = content
+  def author=(author)
+    @author = author
   end
 
   def content
-    return @content
+    @content
+  end
+
+  def content=(content)
+    @content = content
+  end
+
+  def title
+    @title
+  end
+
+  def title=(title)
+    @title = title
+  end
+
+  def created_at
+    @date
+  end
+
+  def created_at=(date)
+    @date = date
+  end
+
+  def save_post
+    Blogpost.add_post_to_list(self)
   end
 
 end
 
-def make_new_post
-
-  blog = Blog.new
-  post = Blogpost.new
-
-  require 'date'
-  current_time = DateTime.now
-
-  puts "who wrote this blog post?"
-  post.set_author = gets.chomp
-  post_author = post.author
-
-  puts "what is this post titled?"
-  post.set_title= gets.chomp
-  post_title= post.title
-
-  puts "insert the post content here"
-  post.set_content= gets.chomp
-  post_content= post.content
-
-  puts "here are the post details:
-
-  date: #{current_time}
-  author: #{post_author}
-  title: #{post_title}
-  content: #{post_content}"
-
-  blog.add_post_to_list(post)
-
-  @post_list.inspect
-
-end
 
 puts "hey, would you like to create a blog post today? [Y/N]"
 response = gets.chomp.downcase
 
 if response == 'y'
-  make_new_post
+  Blogpost.make_new_post
+  Blog.count_posts
+  Blog.show_posts
   puts "would you like to create another?"
   response = gets.chomp.downcase
   while response == 'y'
-    make_new_post
+    Blogpost.make_new_post
+    Blog.count_posts
+    Blog.show_posts
     puts "would you like to create another?"
     response = gets.chomp.downcase
   end
   puts "ok, maybe another time"
 else
   puts "ok, maybe another time"
+end
+
 end
