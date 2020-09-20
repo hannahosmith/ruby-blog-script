@@ -20,7 +20,7 @@ class Blog
         puts "title: #{post.title}"
         puts "content: #{post.content}"
         puts "\n"
-        end
+      end
     end
 
     def self.count_posts
